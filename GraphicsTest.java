@@ -55,6 +55,7 @@ public class GraphicsTest extends JPanel
       list.add(new Passenger(7, 2));
       list.add(new Passenger(3, 1));
       list.add(new Passenger(5, 3));
+      list.add(new Passenger(0, 0));
    /***********/
    
       int numRows = 9;              //CHANGE THESE TO CHANGE BOARD SIZE
@@ -211,6 +212,7 @@ public class GraphicsTest extends JPanel
 
    public void makeElevatorMove()
    {
+      int toPick = 0, toEnd = 0;
       for(int i = 1; i < elevators.length; i++)
       {
          Elevator curr = elevators[i];
@@ -220,8 +222,14 @@ public class GraphicsTest extends JPanel
          curr.setMoveIncrX(0);
          curr.setMoveIncrY(0);
       
-         int toPick = list.get(0).getStart();      //toPick is the floor the next passenger is on
-         int toEnd = list.get(0).getEnd();          //toEnd is the floor the passenger wants to go to
+         if(list.size() == 0)          //if the list is empty, then there are no more passengers to give rides to, therefore stopping the elevator
+            curr.clearDirections();
+         else
+         {
+            toPick = list.get(0).getStart();      //toPick is the floor the next passenger is on
+            toEnd = list.get(0).getEnd();          //toEnd is the floor the passenger wants to go to
+         }
+      
       
          /*Because the rows are backwards compared to the floor numbers, toPick and
          toEnd must be subtracted from 8 to find the relationship between them and
@@ -235,6 +243,7 @@ public class GraphicsTest extends JPanel
             if(curr.getRow() == 8 - (toEnd - 1))
             {
                list.remove(0);
+               curr.setPicked(false);
                continue;
             }
             else
