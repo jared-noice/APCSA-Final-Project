@@ -22,6 +22,8 @@ public class Elevator
    private static final int DOWN = 2;
    private static final int LEFT = 3;
    
+   private boolean picked;
+   
    
    public Elevator(String n, int r, int c, String image)
    {
@@ -36,6 +38,7 @@ public class Elevator
       moveDir = new boolean[4];							//reset movement flags and increments					
       for(int i=0; i<moveDir.length; i++)
          moveDir[i] = false;
+      picked = false;
    }
    
    public void clearDirections()
@@ -153,6 +156,16 @@ public class Elevator
    {
       row = r;
       col = c;
+   }
+   
+   public void setPicked(boolean b)
+   {
+      picked = b;
+   }
+   
+   public boolean getPicked()
+   {
+      return picked;
    }
    	
    public String getName()

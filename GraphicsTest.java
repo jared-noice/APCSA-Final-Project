@@ -19,6 +19,16 @@ public class GraphicsTest extends JPanel
    //images to use
    private ImageIcon elevator = new ImageIcon("_Elevator_.gif");
    private ImageIcon empty = new ImageIcon("Empty.png");
+   private ImageIcon zero = new ImageIcon("zero.gif");
+   private ImageIcon one = new ImageIcon("one.gif");
+   private ImageIcon two = new ImageIcon("two.gif");
+   private ImageIcon three = new ImageIcon("three.gif");
+   private ImageIcon four = new ImageIcon("four.gif");
+   private ImageIcon five = new ImageIcon("five.gif");
+   private ImageIcon six = new ImageIcon("six.gif");
+   private ImageIcon seven = new ImageIcon("seven.gif");
+   private ImageIcon eight = new ImageIcon("eight.gif");
+   private ImageIcon nine = new ImageIcon("nine.gif");
 
    private static final int SIZE = 60;       //size of the cells to be drawn
 
@@ -39,16 +49,16 @@ public class GraphicsTest extends JPanel
    public GraphicsTest()
    {
    /***********/
-   list = new ArrayList<>();
-   list.add(new Passenger(1, 5));
-   list.add(new Passenger(4, 6));
-   list.add(new Passenger(7, 2));
-   list.add(new Passenger(3, 1));
-   list.add(new Passenger(5, 3));
+      list = new ArrayList<>();
+      list.add(new Passenger(1, 5));
+      list.add(new Passenger(4, 6));
+      list.add(new Passenger(7, 2));
+      list.add(new Passenger(3, 1));
+      list.add(new Passenger(5, 3));
    /***********/
-
-      int numRows = 10;              //CHANGE THESE TO CHANGE BOARD SIZE
-      int numColumns = 7;
+   
+      int numRows = 9;              //CHANGE THESE TO CHANGE BOARD SIZE
+      int numColumns = 8;
       board = new int[numRows][numColumns];
       for(int i = 0; i < board.length; i++)
       {
@@ -57,15 +67,15 @@ public class GraphicsTest extends JPanel
             board[i][j] = 0;
          }
       }
-      elevators = new Elevator[1];                    //CHANGE THIS TO CHANGE ELEVATOR COUNT;
-
+      elevators = new Elevator[2];                    //CHANGE THIS TO CHANGE ELEVATOR COUNT;
+   
       /*for(int i = 0; i < board[0].length; i++)         //this will be used to set elevators at EVEN intervals in the array
       {
          if(i % 2 == 0)
             board[i][board.length-1] = 1;
       } */
-      elevators[0] = new Elevator("E", board.length-1, board[0].length/2, "_Elevator_.gif");
-
+      elevators[0] = new Elevator("E", board.length-1, 4, "_Elevator_.gif");     //change this for the starting point of the character
+      elevators[1] = new Elevator("BOT", board.length-1, 6, "one.gif");
       t = new Timer(DELAY, new Listener());     //starts the timer to set the interval of animation
       t.start();
    }
@@ -74,11 +84,34 @@ public class GraphicsTest extends JPanel
    {
       int x = 0;
       int y = 0;
-
+   
+      //y += SIZE;
+      g.drawImage(nine.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(eight.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(seven.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(six.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(five.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(four.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(three.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(two.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+      g.drawImage(one.getImage(), x, y, SIZE, SIZE, null);
+      y += SIZE;
+   
+      y = 0;
+   
+   
       for(int i = 0; i < board.length; i++)
       {
-         x = 0;
-         for(int j = 0; j < board[0].length; j++)
+         x = SIZE;
+         for(int j = 0; j < board[0].length-1; j++)
          {
             if(board[i][j] == 0)    //0 is an empty image
             {
@@ -176,6 +209,48 @@ public class GraphicsTest extends JPanel
       }
    }
 
+   public void makeElevatorMove()
+   {
+      for(int i = 1; i < elevators.length; i++)
+      {
+         Elevator curr = elevators[i];
+         if(curr.isMoving())
+            continue;
+         curr.clearDirections();
+         curr.setMoveIncrX(0);
+         curr.setMoveIncrY(0);
+      
+         int toPick = list.get(0).getStart();      //toPick is the floor the next passenger is on
+         int toEnd = list.get(0).getEnd();          //toEnd is the floor the passenger wants to go to
+      
+         /*Because the rows are backwards compared to the floor numbers, toPick and
+         toEnd must be subtracted from 8 to find the relationship between them and
+         the elevator*/
+         if(curr.getRow() == 8 - (toPick - 1) && !curr.getPicked())
+         {
+            curr.setPicked(true);
+         }
+         if(curr.getPicked())
+         {                     
+            if(curr.getRow() == 8 - (toEnd - 1))
+            {
+               list.remove(0);
+               continue;
+            }
+            else
+               if(curr.getRow() > 8 - (toEnd - 1))
+                  curr.setDirection(UP);
+               else //if(curr.getRow() < 8 - (toEnd - 1))
+                  curr.setDirection(DOWN);
+         }
+         else
+            if(curr.getRow() > 8 - (toPick - 1))
+               curr.setDirection(UP);
+            else //if(curr.getRow() < 8 - (toPick - 1))
+               curr.setDirection(DOWN);
+      }
+   }
+
    public void paintComponent(Graphics g)
    {
       super.paintComponent(g);
@@ -189,7 +264,7 @@ public class GraphicsTest extends JPanel
       public void actionPerformed(ActionEvent e)	//this is called for each timer iteration - make the enemy move randomly
       {
          movePlayerSmoothly();
-         //makeEnemyMove();
+         makeElevatorMove();
          repaint();
       }
    }
