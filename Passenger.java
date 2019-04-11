@@ -9,6 +9,8 @@ public class Passenger
       end = e;
    }
    
+   /*Obligatory getters and setters for each parameter*/
+   
    public int getStart()
    {
       return start;      
@@ -29,6 +31,7 @@ public class Passenger
       end = e;
    }
    
+   //toString() that returns the start and end positions of the passenger
    public String toString()
    {
       return start + ":" + end;

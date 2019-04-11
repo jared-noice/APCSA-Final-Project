@@ -73,6 +73,18 @@ public class Elevator
                if(dir.equals("left"))
                   moveDir[LEFT] = true;
    }
+   
+   public int getDirection()
+   {
+      if(moveDir[0])
+         return 0;
+      else if(moveDir[1])
+         return 1;
+      else if(moveDir[2])
+         return 2;
+      else //if(moveDir[3])
+         return 3;           
+   }
    	
    public boolean isMoving()
    {
@@ -140,6 +152,11 @@ public class Elevator
    public void setName(String n)
    {
       name = n;
+   }
+   
+   public void setImage(ImageIcon image)
+   {
+      picture = image;
    }
    
    public void setRow(int r)

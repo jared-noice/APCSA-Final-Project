@@ -19,16 +19,16 @@ public class GraphicsTest extends JPanel
    //images to use
    private ImageIcon elevator = new ImageIcon("_Elevator_.gif");
    private ImageIcon empty = new ImageIcon("Empty.png");
-   private ImageIcon zero = new ImageIcon("zero.gif");
-   private ImageIcon one = new ImageIcon("one.gif");
-   private ImageIcon two = new ImageIcon("two.gif");
-   private ImageIcon three = new ImageIcon("three.gif");
-   private ImageIcon four = new ImageIcon("four.gif");
-   private ImageIcon five = new ImageIcon("five.gif");
-   private ImageIcon six = new ImageIcon("six.gif");
-   private ImageIcon seven = new ImageIcon("seven.gif");
-   private ImageIcon eight = new ImageIcon("eight.gif");
-   private ImageIcon nine = new ImageIcon("nine.gif");
+   private ImageIcon zero = new ImageIcon("floor_0.gif");
+   private ImageIcon one = new ImageIcon("floor_1.gif");
+   private ImageIcon two = new ImageIcon("floor_2.gif");
+   private ImageIcon three = new ImageIcon("floor_3.gif");
+   private ImageIcon four = new ImageIcon("floor_4.gif");
+   private ImageIcon five = new ImageIcon("floor_5.gif");
+   private ImageIcon six = new ImageIcon("floor_6.gif");
+   private ImageIcon seven = new ImageIcon("floor_7.gif");
+   private ImageIcon eight = new ImageIcon("floor_8.gif");
+   private ImageIcon nine = new ImageIcon("floor_9.gif");
 
    private static final int SIZE = 60;       //size of the cells to be drawn
 
@@ -76,11 +76,11 @@ public class GraphicsTest extends JPanel
             board[i][board.length-1] = 1;
       } */
       elevators[0] = new Elevator("E", board.length-1, 4, "_Elevator_.gif");     //change this for the starting point of the character
-      elevators[1] = new Elevator("BOT", board.length-1, 6, "one.gif");
+      elevators[1] = new Elevator("BOT", board.length-1, 6, "floor_1.gif");
       t = new Timer(DELAY, new Listener());     //starts the timer to set the interval of animation
       t.start();
    }
-
+   
    public void showBoard(Graphics g)
    {
       int x = 0;
@@ -228,9 +228,7 @@ public class GraphicsTest extends JPanel
          {
             toPick = list.get(0).getStart();      //toPick is the floor the next passenger is on
             toEnd = list.get(0).getEnd();          //toEnd is the floor the passenger wants to go to
-         }
-      
-      
+         }            
          /*Because the rows are backwards compared to the floor numbers, toPick and
          toEnd must be subtracted from 8 to find the relationship between them and
          the elevator*/
@@ -239,7 +237,7 @@ public class GraphicsTest extends JPanel
             curr.setPicked(true);
          }
          if(curr.getPicked())
-         {                     
+         {                                 
             if(curr.getRow() == 8 - (toEnd - 1))
             {
                list.remove(0);
@@ -248,7 +246,9 @@ public class GraphicsTest extends JPanel
             }
             else
                if(curr.getRow() > 8 - (toEnd - 1))
+               {
                   curr.setDirection(UP);
+               }
                else //if(curr.getRow() < 8 - (toEnd - 1))
                   curr.setDirection(DOWN);
          }
