@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class GraphicsTest extends JPanel
 {
@@ -55,7 +56,7 @@ public class GraphicsTest extends JPanel
       list.add(new Passenger(7, 2));
       list.add(new Passenger(3, 1));
       list.add(new Passenger(5, 3));
-      list.add(new Passenger(0, 0));
+      list.add(new Passenger(2, 1));
    /***********/
    
       int numRows = 9;              //CHANGE THESE TO CHANGE BOARD SIZE
@@ -68,7 +69,7 @@ public class GraphicsTest extends JPanel
             board[i][j] = 0;
          }
       }
-      elevators = new Elevator[2];                    //CHANGE THIS TO CHANGE ELEVATOR COUNT;
+      elevators = new Elevator[3];                    //CHANGE THIS TO CHANGE ELEVATOR COUNT;
    
       /*for(int i = 0; i < board[0].length; i++)         //this will be used to set elevators at EVEN intervals in the array
       {
@@ -77,10 +78,11 @@ public class GraphicsTest extends JPanel
       } */
       elevators[0] = new Elevator("E", board.length-1, 4, "_Elevator_.gif");     //change this for the starting point of the character
       elevators[1] = new Elevator("BOT", board.length-1, 6, "floor_1.gif");
+      elevators[2] = new Elevator("BOT2", board.length-1, 2, "floor_1.gif");
       t = new Timer(DELAY, new Listener());     //starts the timer to set the interval of animation
       t.start();
    }
-   
+
    public void showBoard(Graphics g)
    {
       int x = 0;
@@ -223,25 +225,39 @@ public class GraphicsTest extends JPanel
          curr.setMoveIncrY(0);
       
          if(list.size() == 0)          //if the list is empty, then there are no more passengers to give rides to, therefore stopping the elevator
-            curr.clearDirections();
-         else
+         {
+            toPick = 0;
+            toEnd = 0;
+         }
+         
+         else if(i % 2 == 1)
          {
             toPick = list.get(0).getStart();      //toPick is the floor the next passenger is on
             toEnd = list.get(0).getEnd();          //toEnd is the floor the passenger wants to go to
-         }            
+         }
+         
+         else //if(i % 2 == 0)
+         {
+            toPick = list.get(list.size()-1).getStart();
+            toEnd = list.get(list.size()-1).getEnd();
+         }
          /*Because the rows are backwards compared to the floor numbers, toPick and
          toEnd must be subtracted from 8 to find the relationship between them and
          the elevator*/
          if(curr.getRow() == 8 - (toPick - 1) && !curr.getPicked())
          {
-            curr.setPicked(true);
+            curr.setPicked(true);      //makes the elevator not stop at the passenger's starting point when it checks for where it needs to go
+            pause();
          }
          if(curr.getPicked())
-         {                                 
+         {
+            //curr.setImage("floor_" + toEnd);
+            this.setImage(curr, toEnd);         //changes the image that is shown on the elevator depending on where it is headed
             if(curr.getRow() == 8 - (toEnd - 1))
             {
                list.remove(0);
                curr.setPicked(false);
+               pause();
                continue;
             }
             else
@@ -253,11 +269,51 @@ public class GraphicsTest extends JPanel
                   curr.setDirection(DOWN);
          }
          else
+         {
+            //curr.setImage("floor_" + toPick);
+            this.setImage(curr, toPick);
             if(curr.getRow() > 8 - (toPick - 1))
                curr.setDirection(UP);
             else //if(curr.getRow() < 8 - (toPick - 1))
                curr.setDirection(DOWN);
+         }
       }
+   }
+
+   public static void pause()    //pauses the program for 1 second
+   {                             //https://stackoverflow.com/questions/24104313/how-do-i-make-a-delay-in-java
+      try
+      {
+         Thread.sleep(1000);
+      }
+      catch(InterruptedException ex)
+      {
+         Thread.currentThread().interrupt();
+      }
+   }
+
+   public void setImage(Elevator curr, int n)
+   {
+      if(n == 0)
+         curr.setImage(zero);
+      else if(n == 1)
+         curr.setImage(one);
+      else if(n == 2)
+         curr.setImage(two);
+      else if(n == 3)
+         curr.setImage(three);
+      else if(n == 4)
+         curr.setImage(four);
+      else if(n == 5)
+         curr.setImage(five);
+      else if(n == 6)
+         curr.setImage(six);
+      else if(n == 7)
+         curr.setImage(seven);
+      else if(n == 8)
+         curr.setImage(eight);
+      else if(n == 9)
+         curr.setImage(nine);
    }
 
    public void paintComponent(Graphics g)

@@ -22,7 +22,7 @@ public class Elevator
    private static final int DOWN = 2;
    private static final int LEFT = 3;
    
-   private boolean picked;
+   private boolean picked;    //determines if the elevator is traversing to the start or end point
    
    
    public Elevator(String n, int r, int c, String image)
