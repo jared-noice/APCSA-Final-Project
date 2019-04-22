@@ -255,7 +255,10 @@ public class GraphicsTest extends JPanel
             this.setImage(curr, toEnd);         //changes the image that is shown on the elevator depending on where it is headed
             if(curr.getRow() == 8 - (toEnd - 1))
             {
-               list.remove(0);
+               if(i % 2 == 1)               
+                  list.remove(0);
+               else
+                  list.remove(list.size()-1);
                curr.setPicked(false);
                pause();
                continue;

@@ -1,4 +1,4 @@
-//borrowed from 
+//mostly borrowed from Oberle Graphics Example 4 - Smooth Animation
 import javax.swing.*;
     
 public class Elevator
@@ -15,6 +15,9 @@ public class Elevator
    
    private int tempX;	//save locations for graphic position of where the player is to be used to draw the player in motion when transitioning from one cell to another
    private int tempY;
+   
+   //private int toPick;  //floor the elevator needs to pick up the passenger
+   //private int toGo;     //floor the elevator needs to bring the passenger
    
    private boolean [] moveDir;	//flags to know which direction we want to move
    private static final int UP = 0;		//movement directions to use as index for moveDir array
