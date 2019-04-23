@@ -4,7 +4,7 @@ import javax.swing.Timer;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;        //CURRENTLY NEED TO CHANGE HOW ELEVATORS PAUSE AT THE DIFFERENT FLOORS (used resetTime() and getTime() in elevator)
 import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -215,6 +215,8 @@ public class GraphicsTest extends JPanel
    public void makeElevatorMove()
    {
       int toPick = 0, toEnd = 0;
+      long currTime = System.currentTimeMillis();
+      
       for(int i = 1; i < elevators.length; i++)
       {
          Elevator curr = elevators[i];
@@ -247,7 +249,7 @@ public class GraphicsTest extends JPanel
          if(curr.getRow() == 8 - (toPick - 1) && !curr.getPicked())
          {
             curr.setPicked(true);      //makes the elevator not stop at the passenger's starting point when it checks for where it needs to go
-            pause();
+            //pause();
          }
          if(curr.getPicked())
          {

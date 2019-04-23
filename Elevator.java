@@ -16,8 +16,7 @@ public class Elevator
    private int tempX;	//save locations for graphic position of where the player is to be used to draw the player in motion when transitioning from one cell to another
    private int tempY;
    
-   //private int toPick;  //floor the elevator needs to pick up the passenger
-   //private int toGo;     //floor the elevator needs to bring the passenger
+   private long currTime;    //saves the current time of the last stop for the elevators to pause in place   
    
    private boolean [] moveDir;	//flags to know which direction we want to move
    private static final int UP = 0;		//movement directions to use as index for moveDir array
@@ -26,6 +25,7 @@ public class Elevator
    private static final int LEFT = 3;
    
    private boolean picked;    //determines if the elevator is traversing to the start or end point
+   private boolean paused;    //if the elevator is paused, then this will return true;
    
    
    public Elevator(String n, int r, int c, String image)
@@ -152,12 +152,32 @@ public class Elevator
       moveIncrY += y;
    }
    
+   public void resetTime()             //resets the elevator's pause time
+   {
+      currTime = System.currentTimeMillis();
+   }
+   
+   public long getTime()               //returns the time that the elevator saved for pausing
+   {
+      return System.currentTimeMillis();
+   }  
+   
+   public void setPaused(boolean b)       //allows user to set if the elevator is paused
+   {
+      paused = b;
+   }
+   
+   public boolean getPaused()    //returns if the elevator is paused
+   {
+      return paused;
+   }
+   
    public void setName(String n)
    {
       name = n;
    }
    
-   public void setImage(ImageIcon image)
+   public void setImage(ImageIcon image)        //sets the image of the elevator (shows right picture)
    {
       picture = image;
    }
@@ -178,12 +198,12 @@ public class Elevator
       col = c;
    }
    
-   public void setPicked(boolean b)
+   public void setPicked(boolean b)    //sets if the elevator has picked up a passenger
    {
       picked = b;
    }
    
-   public boolean getPicked()
+   public boolean getPicked()          //returns if the elevator has picked up a passenger
    {
       return picked;
    }
