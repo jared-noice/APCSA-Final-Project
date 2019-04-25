@@ -97,6 +97,13 @@ public class Elevator
       return false;
    }
    
+   public boolean isPaused()        //method determines if the current elevator is paused in place (if the difference between time reset and current time is greater than one second
+   {
+      if(System.currentTimeMillis() - currTime > 2000)
+         return false;
+      return true;
+   }
+   
    public boolean isMovingUp()
    {
       return moveDir[UP];

@@ -215,7 +215,6 @@ public class GraphicsTest extends JPanel
    public void makeElevatorMove()
    {
       int toPick = 0, toEnd = 0;
-      long currTime = System.currentTimeMillis();
       
       for(int i = 1; i < elevators.length; i++)
       {
@@ -225,6 +224,12 @@ public class GraphicsTest extends JPanel
          curr.clearDirections();
          curr.setMoveIncrX(0);
          curr.setMoveIncrY(0);
+         
+         
+         if(curr.isPaused())     //if the current elevator is paused, then it will not give it a direction
+            continue;
+         
+         //curr.resetTime();
       
          if(list.size() == 0)          //if the list is empty, then there are no more passengers to give rides to, therefore stopping the elevator
          {
@@ -242,14 +247,17 @@ public class GraphicsTest extends JPanel
          {
             toPick = list.get(list.size()-1).getStart();
             toEnd = list.get(list.size()-1).getEnd();
-         }
+         }                  
+            
+            
          /*Because the rows are backwards compared to the floor numbers, toPick and
          toEnd must be subtracted from 8 to find the relationship between them and
          the elevator*/
          if(curr.getRow() == 8 - (toPick - 1) && !curr.getPicked())
          {
             curr.setPicked(true);      //makes the elevator not stop at the passenger's starting point when it checks for where it needs to go
-            //pause();
+            curr.resetTime();
+            
          }
          if(curr.getPicked())
          {
@@ -262,7 +270,7 @@ public class GraphicsTest extends JPanel
                else
                   list.remove(list.size()-1);
                curr.setPicked(false);
-               pause();
+               curr.resetTime();
                continue;
             }
             else
@@ -285,17 +293,17 @@ public class GraphicsTest extends JPanel
       }
    }
 
-   public static void pause()    //pauses the program for 1 second
+   /*public static void pause()    //pauses the program for 1 second
    {                             //https://stackoverflow.com/questions/24104313/how-do-i-make-a-delay-in-java
       try
       {
-         Thread.sleep(1000);
+         Thread.sleep(1000);        //NO LONGER NEED THIS METHOD since elevator pauses on System.currentTimeMillis() instead
       }
       catch(InterruptedException ex)
       {
          Thread.currentThread().interrupt();
       }
-   }
+   }*/
 
    public void setImage(Elevator curr, int n)
    {
