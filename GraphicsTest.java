@@ -223,8 +223,7 @@ public class GraphicsTest extends JPanel
             continue;
          curr.clearDirections();
          curr.setMoveIncrX(0);
-         curr.setMoveIncrY(0);
-         
+         curr.setMoveIncrY(0);         
          
          if(curr.isPaused())     //if the current elevator is paused, then it will not give it a direction
             continue;
@@ -247,8 +246,7 @@ public class GraphicsTest extends JPanel
          {
             toPick = list.get(list.size()-1).getStart();
             toEnd = list.get(list.size()-1).getEnd();
-         }                  
-            
+         }                              
             
          /*Because the rows are backwards compared to the floor numbers, toPick and
          toEnd must be subtracted from 8 to find the relationship between them and

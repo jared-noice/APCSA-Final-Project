@@ -23,17 +23,17 @@ public class GraphicsTestDriver
    {
       public void keyTyped(KeyEvent e)
       {
-         
+      
       }
       
       public void keyPressed(KeyEvent e)
       {
-         
+         screen.processUserInput(e.getKeyCode());
       }
       
       public void keyReleased(KeyEvent e)
       {
-         screen.processUserInput(e.getKeyCode());
+      
       }
    }
 }
